@@ -1,19 +1,33 @@
 import random
+import math
 import time
 
-def insertionSort(list): 
-    n = len(list) 
-    for i in range(n):
-      indice = list[i]
-      a = i-1
-      while (a >= 0 and list[a] > indice):
-         list[a+1] = list[a]
-         a = a-1
-      list[a+1] = indice
+def merge(left, right):
+    result = []
+    i ,j = 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+            
+    result += left[i:]
+    result += right[j:]
+    return result
 
+def mergeSort(lst):
+    if len(lst) < 2:
+        return lst
+    middle = len(lst) / 2
+    left = mergeSort(lst[:middle])
+    right = mergeSort(lst[middle:])
+    return merge(left, right)
+    
 def calculateTime(list):
     t = time.clock()
-    insertionSort(list)
+    mergeSort(list)
     t = time.clock()  - t
     return t
 
@@ -33,3 +47,4 @@ print "Tiempo en ordenar un arreglo de 10 elementos: " + str(calculateTime(list1
 print "Tiempo en ordenar un arreglo de 20 elementos: " + str(calculateTime(list20))
 print "Tiempo en ordenar un arreglo de 100 elementos: " + str(calculateTime(list100))
 print "Tiempo en ordenar un arreglo de 1000 elementos: " + str(calculateTime(list1000))
+    
